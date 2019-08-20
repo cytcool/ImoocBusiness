@@ -1,6 +1,7 @@
 package com.cyt.appsdk.okhttp;
 
 import com.cyt.appsdk.okhttp.https.HttpsUtils;
+import com.cyt.appsdk.okhttp.listener.DisposeDataHandle;
 import com.cyt.appsdk.okhttp.response.CommonJsonCallback;
 
 import java.util.concurrent.TimeUnit;
@@ -43,14 +44,11 @@ public class CommonOkHttpClient {
     /**
      * 发送具体的Http/Https请求
      * @param request
-     * @param commCallback
      * @return Call
      */
-    public static Call sendRequest(Request request, CommonJsonCallback commCallback){
-
+    public static Call get(Request request, DisposeDataHandle handle) {
         Call call = mOkHttpClient.newCall(request);
-        call.enqueue(commCallback);
-
+        call.enqueue(new CommonJsonCallback(handle));
         return call;
     }
 
